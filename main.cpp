@@ -39,6 +39,8 @@ int main() {
    const int NOMBRE_SERPENTS_MAX = 1000;
    // Le nom de la fenêtre
    const char nomFenetre[] = "PRG1 Labo Snakes";
+   // L'échelle de la fenêtre (1 pixel * échelle)
+   const int ECHELLE_FENETRE = 4;
 
    // La largeur du terrain saisie par l'utilisateur
    int largeurTerrain;
@@ -59,7 +61,7 @@ int main() {
 
    cout << endl;
 
-   Fenetre fenetre = Fenetre(nomFenetre, 80, 50, 10);
+   Fenetre fenetre = Fenetre(nomFenetre, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
    fenetre.afficher();
 
    return EXIT_SUCCESS;
