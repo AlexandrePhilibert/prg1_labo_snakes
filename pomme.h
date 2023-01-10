@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
-// Fichier        : cible.h
+// Fichier        : pomme.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-09
+// Date           : 2022-01-10
 // But            :
 //
 // Modifications  : NIL
@@ -10,13 +10,18 @@
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
 
+#ifndef PRG1_LABO_SNAKES_POMME_H
+#define PRG1_LABO_SNAKES_POMME_H
 
-#ifndef PRG1_LABO_SNAKES_CIBLE_H
-#define PRG1_LABO_SNAKES_CIBLE_H
+#include "coordonnee.h"
 
-class Cible{
-   int posX;
-   int posY;
+class Pomme {
+public:
+   Pomme(const Coordonnee& coordonnee);
+
+private:
+   int valeur;
+   const Coordonnee& coordonnee;
 };
 
-#endif //PRG1_LABO_SNAKES_CIBLE_H
+#endif //PRG1_LABO_SNAKES_POMME_H

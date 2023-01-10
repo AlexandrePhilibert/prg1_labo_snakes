@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
-// Fichier        : cible.cpp
+// Fichier        : pomme.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-09
+// Date           : 2022-01-10
 // But            :
 //
 // Modifications  : NIL
@@ -10,5 +10,10 @@
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
 
-#include "cible.h"
+#include "pomme.h"
+#include "annexe.h"
 
+Pomme::Pomme(const Coordonnee& coordonnee):  coordonnee(coordonnee) {
+   // TODO: Définir des valeurs statiques sur la classe Pomme pour valeur min et max ?
+   valeur = random(1, 10);
+};

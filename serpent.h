@@ -13,30 +13,34 @@
 #ifndef PRG1_LABO_SNAKES_SERPENT_H
 #define PRG1_LABO_SNAKES_SERPENT_H
 
-#include "cible.h"
+#include "coordonnee.h"
 
 class Serpent {
 public:
-   Serpent(int x, int y);
+   explicit Serpent(const Coordonnee& coordonneeTete, size_t taille = 10);
 
-   void deplacer();
+   /**
+    * Déplace la tête du serpent dans la direction donnée, déplace également
+    * le reste de son corps.
+    *
+    * @param direction
+    */
+   void deplacer(Direction direction);
 
-   // Référence ou non ?
-   Cible cible;
-
-   // Getters
-   int getPosX(){
-      return posX;
-   }
-   int getPosY(){
-      return posY;
-   }
-
+   int getId() const;
 
 private:
-   // A voir si on change
-   int posX;
-   int posY;
+
+   static int prochainId;
+
+   int id;
+
+   /**
+    * Le corps du serpent comprends la tête (premier élément du vecteur)
+    */
+   std::vector<Coordonnee> corps;
+
+   Coordonnee& tete() const;
 
 };
 #endif //PRG1_LABO_SNAKES_SERPENT_H

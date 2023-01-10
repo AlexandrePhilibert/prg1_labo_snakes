@@ -16,6 +16,6 @@ endif()
 
 include_directories(${SDL2_INCLUDE_DIRS})
 
-add_executable(prg1_labo_snakes main.cpp fenetre.h fenetre.cpp terrain.cpp terrain.h saisie.cpp saisie.h annexe.h annexe.cpp serpent.cpp serpent.h cible.cpp cible.h)
+add_executable(prg1_labo_snakes main.cpp fenetre.h fenetre.cpp terrain.cpp terrain.h saisie.cpp saisie.h annexe.h annexe.cpp serpent.cpp serpent.h coordonnee.cpp coordonnee.h pomme.h pomme.cpp)
 
 target_link_libraries(prg1_labo_snakes ${SDL2_LIBRARIES})

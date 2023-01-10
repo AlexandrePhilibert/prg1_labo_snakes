@@ -13,6 +13,7 @@
 
 #include "fenetre.h"
 #include "saisie.h"
+#include "terrain.h"
 
 using namespace std;
 
@@ -60,6 +61,8 @@ int main() {
    nombreSerpents = saisie(MSG_SAISIE_NOMBRE_SERPENTS, MSG_ERREUR, NOMBRE_SERPENTS_MIN, NOMBRE_SERPENTS_MAX);
 
    cout << endl;
+
+   Terrain terrain = Terrain(nombreSerpents, largeurTerrain, hauteurTerrain);
 
    Fenetre fenetre = Fenetre(nomFenetre, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
    fenetre.afficher();
