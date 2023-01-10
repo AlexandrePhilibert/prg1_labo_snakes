@@ -65,7 +65,10 @@ int main() {
    Terrain terrain = Terrain(nombreSerpents, largeurTerrain, hauteurTerrain);
 
    Fenetre fenetre = Fenetre(nomFenetre, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
-   fenetre.afficher();
+
+   while(!fenetre.getVeutQuitter()) {
+      fenetre.gererEvenements();
+   }
 
    return EXIT_SUCCESS;
 }

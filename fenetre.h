@@ -24,18 +24,29 @@ using namespace std;
 
 class Fenetre {
 public:
+   /**
+    *
+    * @param nom     nom de la fenêtre affichée par le système d'exploitation
+    * @param largeur largeur de la fenêtre
+    * @param hauteur hauteur de la fenêtre
+    * @param echelle echelle à laquelle est rendue un pixel
+    */
    Fenetre(const char nom[], int largeur = 50, int hauteur = 50, int echelle = 10);
 
    ~Fenetre();
 
-   void afficher();
+   bool getVeutQuitter() const;
+
+   /**
+    * Gère les évènements de la fenêtre tel que la fermeture de la fenêtre
+    */
+   void gererEvenements();
 
 private:
    SDL_Window*   window   = nullptr;
    SDL_Renderer* renderer = nullptr;
 
-   int largeur;
-   int hauteur;
+   bool veutQuitter = false;
 };
 
 #endif //PRG1_LABO_SNAKES_FENETRE_H
