@@ -1,5 +1,14 @@
+// -----------------------------------------------------------------------------------------------
+// Fichier        : cible.cpp
+// Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
+// Date           : 2022-01-09
+// But            :
 //
-// Created by noamd on 10/01/2023.
-//
+// Modifications  : NIL
+// Remarque(s)    :
+// Compilateur    : g++ 11.2.0
+// Standard C++   : C++ 20
+// -----------------------------------------------------------------------------------------------
 
 #include "cible.h"
+
