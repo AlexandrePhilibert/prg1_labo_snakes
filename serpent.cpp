@@ -31,10 +31,6 @@ int Serpent::getId() const {
    return id;
 }
 
-vector<Coordonnee> Serpent::getCorps() const{
-   return corps;
-}
-
 void Serpent::mange(const Pomme& pomme) {
    corps.resize(corps.size() + (size_t) pomme.getValeur(), queue());
 }
@@ -60,7 +56,7 @@ Coordonnee& Serpent::queue() {
 const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent) {
    SDL_SetRenderDrawColor(fenetre.getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
 
-   for(Coordonnee coordonnee : serpent.getCorps()){
+   for(Coordonnee coordonnee : serpent.corps){
       SDL_RenderDrawPoint(fenetre.getRenderer(), coordonnee.getX(), coordonnee.getY());
    }
 }

@@ -17,6 +17,7 @@
 #include "pomme.h"
 
 class Serpent {
+   friend const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent);
 public:
    explicit Serpent(const Coordonnee& coordonneeTete, size_t taille = 10);
 
@@ -42,8 +43,7 @@ public:
    void mord(const Serpent& serpent);
 
    int getId() const;
-
-   std::vector<Coordonnee> getCorps() const;
+;
 
 private:
 
