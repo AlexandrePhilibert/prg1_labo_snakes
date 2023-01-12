@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <cstdlib>
+#include <thread>
 
 #include "fenetre.h"
 #include "saisie.h"
@@ -71,6 +72,11 @@ int main (int argc, char *args[]) {
 
    while(!fenetre.getVeutQuitter()) {
       fenetre << terrain;
+
+      // Effectue les déplacements et les combats de serpents
+      terrain.prochainTour();
+
+      this_thread::sleep_for(16.66ms);
 
       fenetre.gererEvenements();
    }

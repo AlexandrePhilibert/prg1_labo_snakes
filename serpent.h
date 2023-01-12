@@ -43,7 +43,6 @@ public:
    void mord(Serpent& serpent);
 
    int getId() const;
-;
 
    /**
     * Permet de récupérer la coordonnée de la tête du serpent

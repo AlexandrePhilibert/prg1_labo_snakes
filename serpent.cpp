@@ -46,7 +46,7 @@ void Serpent::mord(Serpent& serpent) {
 void Serpent::deplacer(Direction direction) {
    // Déplace le corps du serpent
    for(size_t i = corps.size() - 1; i > 0; --i){
-      corps[i] = corps[i+1];
+      corps[i] = corps[i-1];
    }
 
    // Déplace la tête du serpent
