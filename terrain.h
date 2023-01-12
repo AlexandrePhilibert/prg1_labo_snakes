@@ -32,8 +32,7 @@ private:
    std::vector<Pomme> pommes;
    std::vector<Serpent> serpents;
 
-
-   void deplacer(Serpent& serpent);
+   Direction deplacer(Serpent& serpent);
 
 };
 

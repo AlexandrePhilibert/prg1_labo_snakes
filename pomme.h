@@ -24,7 +24,8 @@ public:
 
    int getValeur() const;
 
-private:
+   const Coordonnee& getCoordonnee() const;
+
    int valeur;
    Coordonnee coordonnee;
 

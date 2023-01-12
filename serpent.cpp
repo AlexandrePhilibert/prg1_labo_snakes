@@ -35,9 +35,17 @@ void Serpent::mange(const Pomme& pomme) {
    corps.resize(corps.size() + (size_t) pomme.getValeur(), queue());
 }
 
+void Serpent::mord(Serpent& serpent) {
+   vector<Coordonnee>::iterator it = find(serpent.corps.begin(), serpent.corps.end(), tete());
+
+   // TODO: Ajouter les 40% de la longueur de ce qui a été coupé
+
+   serpent.corps.erase(it);
+}
+
 void Serpent::deplacer(Direction direction) {
    // Déplace le corps du serpent
-   for(size_t i = this->corps.size() - 1; i > 0; --i){
+   for(size_t i = corps.size() - 1; i > 0; --i){
       corps[i] = corps[i+1];
    }
 

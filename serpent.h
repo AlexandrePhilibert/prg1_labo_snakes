@@ -39,9 +39,19 @@ public:
     *
     * @param serpent
     */
-   void mord(const Serpent& serpent);
+   void mord(Serpent& serpent);
 
    int getId() const;
+
+   /**
+    * Permet de récupérer la coordonnée de la tête du serpent
+    *
+    * TODO: Référence mutable, donc peut être modifiée depuis l'extérieur
+    *
+    * @throws NIL
+    * @return La coordonne de la tête du serpent
+    */
+   Coordonnee& tete();
 
 private:
 
@@ -53,14 +63,6 @@ private:
     * Le corps du serpent comprends la tête (premier élément du vecteur)
     */
    std::vector<Coordonnee> corps;
-
-   /**
-    * Permet de récupérer la coordonnée de la tête du serpent
-    *
-    * @throws NIL
-    * @return La coordonne de la tête du serpent
-    */
-   Coordonnee& tete();
 
    /**
     * Premet de récupérer la coordonnée de la queue du serpent

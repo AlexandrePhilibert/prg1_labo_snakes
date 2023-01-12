@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <vector>
+#include <random> // random_device()
 
 #include "fenetre.h"
 #include "terrain.h"
@@ -31,6 +32,38 @@ Terrain::Terrain(int nombreSerpents, int largeur, int hauteur) : largeur(largeur
    }
 };
 
+Direction Terrain::deplacer(Serpent &serpent) {
+   Pomme& pomme = pommes[0];
+   Direction direction;
+
+   // TODO: Refactor ça
+   if (abs(serpent.tete().getX() - pomme.getCoordonnee().getX()) >
+      abs(serpent.tete().getY() - pomme.getCoordonnee().getY())) {
+      if (serpent.tete().getX() < pomme.getCoordonnee().getX()) {
+         direction = Direction::DROITE;
+      } else {
+         direction =  Direction::GAUCHE;
+      }
+   } else {
+      if (serpent.tete().getY() < pomme.getCoordonnee().getY()) {
+         direction = Direction::BAS;
+      } else {
+         direction =  Direction::HAUT;
+      }
+   }
+
+   return direction;
+}
+
+void Terrain::prochainTour() {
+   // Mélange l'ordre des robots pour une égalité des chances de victoire de chaque robot lors d'un combatsRobots
+   shuffle(serpents.begin(), serpents.end(), random_device());
+
+   for (Serpent& serpent : serpents) {
+      Direction direction = deplacer(serpent);
+      serpent.deplacer(direction);
+   }
+}
 
 const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
    // Affiche l'arrière-plan du terrain en blanc
