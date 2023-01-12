@@ -32,7 +32,6 @@ Terrain::Terrain(int nombreSerpents, int largeur, int hauteur) : largeur(largeur
 
    //Enlever duplication code
    vector<Coordonnee> coordonneesDeDepartSerpent = vector<Coordonnee>((size_t) nombreSerpents);
-   // TODO: Vérifier que les serpents et les pommes ne commencent pas sur la même coordonnée ?
    Coordonnee::unique(coordonneesDeDepartSerpent.begin(), coordonneesDeDepartSerpent.end(), largeur - 1, hauteur - 1);
 
    // Création des serpents et attributions des coordonnées de départ uniques
@@ -51,13 +50,10 @@ const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
 
    for (const Pomme& pomme : terrain.pommes) {
       // TODO: Ajouter la méthode dessinerPoint sur la classe fenêtre
-      // TODO: Implémenter l'opérateur de flux pour la classe Pomme
       fenetre << pomme;
    }
 
    for (const Serpent& serpent : terrain.serpents) {
-      // TODO: Ajouter la méthode dessinerPoint sur la classe fenêtre
-      // TODO: Implémenter l'opérateur de flux pour la classe Pomme
       fenetre << serpent;
    }
 
