@@ -10,17 +10,17 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <cstdlib>
-#include <iostream>
+
 #include "fenetre.h"
 #include "saisie.h"
 #include "terrain.h"
 
-#include "SDL.h"
+#include "SDL.h" // Include aussi dans le main autrement problème avec windows
 
 using namespace std;
 
-int main (int argc, char *argv[]) {
-
+//Argument pour SDL et windows
+int main (int argc, char *args[]) {
    // Le message de saisie de la largeur du terrain
    const string MSG_SAISIE_LARGEUR = "largeur";
    // Le message de saisie de la hauteur du terrain
@@ -41,8 +41,8 @@ int main (int argc, char *argv[]) {
    const int NOMBRE_SERPENTS_MIN = 2;
    // Le nombre de serpents maximum qui pourra être choisi par l'utilisateur
    const int NOMBRE_SERPENTS_MAX = 1000;
-   // Le nom de la fenêtre
-   const char nomFenetre[] = "PRG1 Labo Snakes";
+
+   const char* nomFenetre = "PRG1 Labo Snakes"; // Le nom de la fenêtre
    // L'échelle de la fenêtre (1 pixel * échelle)
    const int ECHELLE_FENETRE = 4;
 
@@ -59,9 +59,9 @@ int main (int argc, char *argv[]) {
    // Saisie de la largeur du terrain
    largeurTerrain = saisie(MSG_SAISIE_LARGEUR, MSG_ERREUR, LARGEUR_TERRAIN_MIN, LARGEUR_TERRAIN_MAX);
    // Saisie de la hauteur du terrain
-   hauteurTerrain = saisie(MSG_SAISIE_HAUTEUR, MSG_ERREUR, HAUTEUR_TERRAIN_MIN, HAUTEUR_TERRAIN_MAX);
+   hauteurTerrain = 100; //saisie(MSG_SAISIE_HAUTEUR, MSG_ERREUR, HAUTEUR_TERRAIN_MIN, HAUTEUR_TERRAIN_MAX);
    // Saisie du nombre de serpents
-   nombreSerpents = saisie(MSG_SAISIE_NOMBRE_SERPENTS, MSG_ERREUR, NOMBRE_SERPENTS_MIN, NOMBRE_SERPENTS_MAX);
+   nombreSerpents = 8; //saisie(MSG_SAISIE_NOMBRE_SERPENTS, MSG_ERREUR, NOMBRE_SERPENTS_MIN, NOMBRE_SERPENTS_MAX);
 
    cout << endl;
 
@@ -72,7 +72,6 @@ int main (int argc, char *argv[]) {
    while(!fenetre.getVeutQuitter()) {
       fenetre.gererEvenements();
    }
-
 
    return EXIT_SUCCESS;
 }
