@@ -16,6 +16,7 @@
 #include "pomme.h"
 
 class Terrain {
+   friend const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain);
 public:
    explicit Terrain(int nombreSerpents = 0, int largeur = 50, int hauteur = 50);
 
@@ -35,5 +36,7 @@ private:
    void deplacer(Serpent& serpent);
 
 };
+
+const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain);
 
 #endif //PRG1_LABO_SNAKES_TERRAIN_H

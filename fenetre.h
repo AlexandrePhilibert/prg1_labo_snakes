@@ -37,6 +37,8 @@ public:
 
    bool getVeutQuitter() const;
 
+   SDL_Renderer* getRenderer() const;
+
    /**
     * Gère les évènements de la fenêtre tel que la fermeture de la fenêtre
     */

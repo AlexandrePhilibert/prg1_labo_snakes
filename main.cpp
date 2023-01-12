@@ -70,6 +70,8 @@ int main (int argc, char *args[]) {
    Fenetre fenetre = Fenetre(nomFenetre, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
 
    while(!fenetre.getVeutQuitter()) {
+      fenetre << terrain;
+
       fenetre.gererEvenements();
    }
 

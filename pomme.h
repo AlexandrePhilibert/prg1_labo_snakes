@@ -14,14 +14,22 @@
 #define PRG1_LABO_SNAKES_POMME_H
 
 #include "coordonnee.h"
+#include "fenetre.h"
 
 class Pomme {
+   // TODO: Est-ce que ça va ici ?
+   friend const Fenetre& operator<<(const Fenetre& fenetre, const Pomme& pomme);
 public:
    Pomme(const Coordonnee& coordonnee);
 
 private:
    int valeur;
-   const Coordonnee& coordonnee;
+   Coordonnee coordonnee;
+
+   static int VALEUR_MIN;
+   static int VALEUR_MAX;
 };
+
+const Fenetre& operator<<(const Fenetre& fenetre, const Pomme& pomme);
 
 #endif //PRG1_LABO_SNAKES_POMME_H
