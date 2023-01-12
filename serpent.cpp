@@ -60,3 +60,11 @@ Coordonnee& Serpent::tete() {
 Coordonnee& Serpent::queue() {
    return corps[corps.size() - 1];
 }
+
+const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent) {
+   SDL_SetRenderDrawColor(fenetre.getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+
+   for(Coordonnee coordonnee : serpent.corps){
+      SDL_RenderDrawPoint(fenetre.getRenderer(), coordonnee.getX(), coordonnee.getY());
+   }
+}
