@@ -3,7 +3,7 @@ project(prg1_labo_snakes)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(prg1_labo_snakes main.cpp fenetre.h fenetre.cpp terrain.h terrain.cpp saisie.h saisie.cpp annexe.cpp serpent.cpp serpent.h coordonnee.cpp coordonnee.h pomme.h pomme.cpp)
+add_executable(prg1_labo_snakes main.cpp terrain.h terrain.cpp fenetre.h  fenetre.cpp saisie.h saisie.cpp annexe.cpp serpent.cpp serpent.h coordonnee.cpp coordonnee.h pomme.h pomme.cpp)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)

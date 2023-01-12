@@ -43,6 +43,8 @@ public:
 
    int getId() const;
 
+   std::vector<Coordonnee> getCorps() const;
+
 private:
 
    static int prochainId;
@@ -71,4 +73,6 @@ private:
    Coordonnee& queue();
 
 };
+
+const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent);
 #endif //PRG1_LABO_SNAKES_SERPENT_H
