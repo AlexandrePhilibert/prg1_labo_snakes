@@ -33,4 +33,15 @@ int Serpent::getId() const {
 
 void Serpent::deplacer(Direction direction) {
    // TODO: Déplacer la tête du serpent (fonction tete()) puis faire suivre toutes les parties
+   // Déplace le corps du serpent
+   for(size_t i = this->corps.size() - 1; i > 0; --i){
+      this->corps[i] = this->corps[i+1];
+   }
+
+   // Déplace la tête du serpent
+   this->tete() = this->tete() + direction;
+}
+
+Coordonnee& Serpent::tete(){
+   return this->corps[0];
 }

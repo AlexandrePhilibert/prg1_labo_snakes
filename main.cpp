@@ -10,14 +10,17 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <cstdlib>
-
+#include <iostream>
 #include "fenetre.h"
 #include "saisie.h"
 #include "terrain.h"
 
+#include "SDL.h"
+
 using namespace std;
 
-int main() {
+int main (int argc, char *argv[]) {
+
    // Le message de saisie de la largeur du terrain
    const string MSG_SAISIE_LARGEUR = "largeur";
    // Le message de saisie de la hauteur du terrain
@@ -71,6 +74,7 @@ int main() {
 
       fenetre.gererEvenements();
    }
+
 
    return EXIT_SUCCESS;
 }
