@@ -40,7 +40,7 @@ private:
     */
    std::vector<Coordonnee> corps;
 
-   Coordonnee& tete() const;
+   Coordonnee& tete();
 
 };
 #endif //PRG1_LABO_SNAKES_SERPENT_H
