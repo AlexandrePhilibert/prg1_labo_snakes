@@ -21,6 +21,10 @@ Pomme::Pomme(const Coordonnee& coordonnee):  coordonnee(coordonnee) {
    valeur = random(VALEUR_MIN, VALEUR_MAX);
 };
 
+int Pomme::getValeur() const {
+   return valeur;
+}
+
 const Fenetre& operator<<(const Fenetre& fenetre, const Pomme& pomme) {
    SDL_SetRenderDrawColor(fenetre.getRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
    SDL_RenderDrawPoint(fenetre.getRenderer(), pomme.coordonnee.getX(), pomme.coordonnee.getY());

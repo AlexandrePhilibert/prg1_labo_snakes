@@ -31,17 +31,24 @@ int Serpent::getId() const {
    return id;
 }
 
+void Serpent::mange(const Pomme& pomme) {
+   corps.resize(corps.size() + (size_t) pomme.getValeur(), queue());
+}
+
 void Serpent::deplacer(Direction direction) {
-   // TODO: Déplacer la tête du serpent (fonction tete()) puis faire suivre toutes les parties
    // Déplace le corps du serpent
    for(size_t i = this->corps.size() - 1; i > 0; --i){
-      this->corps[i] = this->corps[i+1];
+      corps[i] = corps[i+1];
    }
 
    // Déplace la tête du serpent
-   this->tete() = this->tete() + direction;
+   tete() = tete() + direction;
 }
 
-Coordonnee& Serpent::tete(){
-   return this->corps[0];
+Coordonnee& Serpent::tete() {
+   return corps[0];
+}
+
+Coordonnee& Serpent::queue() {
+   return corps[corps.size() - 1];
 }

@@ -22,6 +22,8 @@ class Pomme {
 public:
    Pomme(const Coordonnee& coordonnee);
 
+   int getValeur() const;
+
 private:
    int valeur;
    Coordonnee coordonnee;

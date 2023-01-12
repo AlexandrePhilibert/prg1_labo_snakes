@@ -14,6 +14,7 @@
 #define PRG1_LABO_SNAKES_SERPENT_H
 
 #include "coordonnee.h"
+#include "pomme.h"
 
 class Serpent {
 public:
@@ -26,6 +27,19 @@ public:
     * @param direction
     */
    void deplacer(Direction direction);
+
+   /**
+    * Ajoute la longueur de la valeur de la pomme au serpent.
+    *
+    * @param pomme
+    */
+   void mange(const Pomme& pomme);
+
+   /**
+    *
+    * @param serpent
+    */
+   void mord(const Serpent& serpent);
 
    int getId() const;
 
@@ -40,7 +54,21 @@ private:
     */
    std::vector<Coordonnee> corps;
 
+   /**
+    * Permet de récupérer la coordonnée de la tête du serpent
+    *
+    * @throws NIL
+    * @return La coordonne de la tête du serpent
+    */
    Coordonnee& tete();
+
+   /**
+    * Premet de récupérer la coordonnée de la queue du serpent
+    *
+    * #throws NIL
+    * @return La coordonne de la queue du serpent
+    */
+   Coordonnee& queue();
 
 };
 #endif //PRG1_LABO_SNAKES_SERPENT_H
