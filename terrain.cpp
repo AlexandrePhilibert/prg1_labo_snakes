@@ -30,7 +30,7 @@ Terrain::Terrain(int nombreSerpents, int largeur, int hauteur) : largeur(largeur
       pommes.push_back(Pomme(coordonnee));
    }
 
-   //Enlever duplication code
+   // TODO: Enlever duplication code
    vector<Coordonnee> coordonneesDeDepartSerpent = vector<Coordonnee>((size_t) nombreSerpents);
    Coordonnee::unique(coordonneesDeDepartSerpent.begin(), coordonneesDeDepartSerpent.end(), largeur - 1, hauteur - 1);
 
