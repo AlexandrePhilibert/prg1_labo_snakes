@@ -48,3 +48,7 @@ void Fenetre::gererEvenements() {
 bool Fenetre::getVeutQuitter() const {
    return veutQuitter;
 }
+
+SDL_Renderer *Fenetre::getRenderer() const {
+   return renderer;
+}

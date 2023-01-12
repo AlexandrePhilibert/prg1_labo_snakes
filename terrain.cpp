@@ -11,6 +11,7 @@
 
 #include <vector>
 
+#include "fenetre.h"
 #include "terrain.h"
 #include "coordonnee.h"
 
@@ -25,7 +26,23 @@ Terrain::Terrain(int nombreSerpents, int largeur, int hauteur) : largeur(largeur
    // TODO: Le code pour les serpents sera le même...
    pommes = vector<Pomme>();
    pommes.reserve((size_t) nombreSerpents);
-   for (Coordonnee& coordonnee : coordonneesDeDepart) {
+   for (const Coordonnee& coordonnee : coordonneesDeDepart) {
       pommes.push_back(Pomme(coordonnee));
    }
 };
+
+
+const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
+   // Affiche l'arrière-plan du terrain en blanc
+   SDL_SetRenderDrawColor(fenetre.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
+   SDL_RenderClear(fenetre.getRenderer());
+
+   for (const Pomme& pomme : terrain.pommes) {
+      // TODO: Ajouter la méthode dessinerPoint sur la classe fenêtre
+      // TODO: Implémenter l'opérateur de flux pour la classe Pomme
+      fenetre << pomme;
+   }
+
+   // Effectue le rendu sur la fenêtre
+   SDL_RenderPresent(fenetre.getRenderer());
+}

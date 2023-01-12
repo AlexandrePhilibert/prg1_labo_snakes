@@ -67,6 +67,8 @@ int main() {
    Fenetre fenetre = Fenetre(nomFenetre, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
 
    while(!fenetre.getVeutQuitter()) {
+      fenetre << terrain;
+
       fenetre.gererEvenements();
    }
 
