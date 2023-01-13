@@ -31,11 +31,14 @@ public:
     */
    Fenetre(const char nom[], int largeur = 50, int hauteur = 50, int echelle = 10);
 
-   ~Fenetre();
-
    bool getVeutQuitter() const;
 
    SDL_Renderer* getRenderer() const;
+
+   /**
+    * Permet de fermer la fenêtre
+    */
+   void quitter();
 
    /**
     * Gère les évènements de la fenêtre tel que la fermeture de la fenêtre

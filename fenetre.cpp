@@ -20,7 +20,7 @@ Fenetre::Fenetre(const char* nom, int largeur, int hauteur, int echelle) {
                                SDL_WINDOW_SHOWN,
                                &window, &renderer);
 
-   if (window == nullptr or renderer == nullptr) {
+   if (window == nullptr || renderer == nullptr) {
       cout << "SDL not ready ... quitting" << endl;
       exit(EXIT_FAILURE);
    }
@@ -28,12 +28,6 @@ Fenetre::Fenetre(const char* nom, int largeur, int hauteur, int echelle) {
    SDL_SetWindowTitle(window, nom);
    SDL_RenderSetScale(renderer, (float) echelle, (float) echelle);
 };
-
-Fenetre::~Fenetre() {
-   SDL_DestroyRenderer(renderer);
-   SDL_DestroyWindow(window);
-   SDL_Quit();
-}
 
 void Fenetre::gererEvenements() {
    SDL_Event event;
@@ -46,11 +40,17 @@ void Fenetre::gererEvenements() {
       }
    }
 }
-
+or
 bool Fenetre::getVeutQuitter() const {
    return veutQuitter;
 }
 
 SDL_Renderer *Fenetre::getRenderer() const {
    return renderer;
+}
+
+void Fenetre::quitter() {
+   SDL_DestroyRenderer(renderer);
+   SDL_DestroyWindow(window);
+   SDL_Quit();
 }

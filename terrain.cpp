@@ -10,53 +10,34 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <vector>
-#include <random> // random_device()
 
 #include "fenetre.h"
 #include "terrain.h"
 #include "coordonnee.h"
+#include "serpent.h"
+#include "pomme.h"
 
 using namespace std;
 
-Terrain::Terrain(int nombreSerpents, int largeur, int hauteur) : largeur(largeur), hauteur(hauteur) {
-   vector<Coordonnee> coordonneesDeDepart = vector<Coordonnee>((size_t) nombreSerpents);
-   // TODO: Vérifier que les serpents et les pommes ne commencent pas sur la même coordonnée ?
-   Coordonnee::unique(coordonneesDeDepart.begin(), coordonneesDeDepart.end(), largeur - 1, hauteur - 1);
-
-   // Création des pommes et attribution des coordonnées de départ uniques
-   // TODO: Le code pour les serpents sera le même...
-   pommes = vector<Pomme>();
-   pommes.reserve((size_t) nombreSerpents);
-   for (const Coordonnee& coordonnee : coordonneesDeDepart) {
-      pommes.push_back(Pomme(coordonnee));
-   }
-
-   // TODO: Enlever duplication code
-   vector<Coordonnee> coordonneesDeDepartSerpent = vector<Coordonnee>((size_t) nombreSerpents);
-   Coordonnee::unique(coordonneesDeDepartSerpent.begin(), coordonneesDeDepartSerpent.end(), largeur - 1, hauteur - 1);
-
-   // Création des serpents et attributions des coordonnées de départ uniques
-   serpents = vector<Serpent>();
-   serpents.reserve((size_t) nombreSerpents);
-   for(const Coordonnee& coordonnee : coordonneesDeDepartSerpent){
-      serpents.push_back(Serpent(coordonnee));
-   }
-};
-
-Direction Terrain::deplacer(Serpent &serpent) {
-   Pomme& pomme = pommes[0];
+Terrain::Terrain(vector<Serpent> &serpents, vector<Pomme>& pommes, int largeur, int hauteur) : largeur(largeur),
+                                                                                               hauteur(hauteur),
+                                                                                               pommes(pommes),
+                                                                                               serpents(serpents) {}
+Direction Terrain::directionVersPomme(const Serpent& serpent) {
+   Pomme& pomme = pommes[(size_t) serpent.getId() - 1];
    Direction direction;
 
-   // TODO: Refactor ça
-   if (abs(serpent.tete().getX() - pomme.getCoordonnee().getX()) >
-      abs(serpent.tete().getY() - pomme.getCoordonnee().getY())) {
-      if (serpent.tete().getX() < pomme.getCoordonnee().getX()) {
+   Coordonnee distance = serpent.tete() - pomme.getCoordonnee();
+   Coordonnee distanceAbsolue = distance.abs();
+
+   if (distanceAbsolue.getX() > distanceAbsolue.getY()) {
+      if (distance.getX() < 0) {
          direction = Direction::DROITE;
       } else {
          direction =  Direction::GAUCHE;
       }
    } else {
-      if (serpent.tete().getY() < pomme.getCoordonnee().getY()) {
+      if (distance.getY() < 0) {
          direction = Direction::BAS;
       } else {
          direction =  Direction::HAUT;
@@ -66,17 +47,45 @@ Direction Terrain::deplacer(Serpent &serpent) {
    return direction;
 }
 
+class TeteSurSerpent {
+public:
+   TeteSurSerpent(Serpent& serpent): serpent(serpent) {}
+
+   bool operator()(const Serpent& serpent) {
+      if (serpent == this->serpent) {
+         return false;
+      }
+
+      vector<Coordonnee>::const_iterator it = find(serpent.corps.begin(), serpent.corps.end(), this->serpent.tete());
+      return it != serpent.corps.end();
+   }
+private:
+   Serpent& serpent;
+};
+
 void Terrain::prochainTour() {
-   // Mélange l'ordre des robots pour une égalité des chances de victoire de chaque robot lors d'un combatsRobots
-   shuffle(serpents.begin(), serpents.end(), random_device());
+   for (vector<Serpent>::iterator serpent = serpents.begin(); serpent != serpents.end(); ++serpent) {
+      Direction direction = directionVersPomme(*serpent);
+      serpent->deplacer(direction);
 
-   for (Serpent& serpent : serpents) {
-      Direction direction = deplacer(serpent);
-      serpent.deplacer(direction);
+      if (serpent->tete() == pommes[(size_t) serpent->getId() - 1].getCoordonnee()) {
+         serpent->mange(pommes[(size_t) serpent->getId() - 1]);
+         pommes[(size_t) serpent->getId() - 1] = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
+      }
 
-      if (serpent.tete() == pommes[0].getCoordonnee()) {
-         serpent.mange(pommes[0]);
-         pommes[0] = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
+      // Combats tête sur tête
+      vector<Serpent>::iterator it = find_if(serpents.begin(), serpents.end(), TeteSurSerpent(*serpent));
+      if (it != serpents.end()) {
+         if (it->tete() == serpent->tete()) {
+            ResultatCombat resultat = serpent->combat(*it);
+
+            cout << resultat.gagnant << " killed " << resultat.perdant << endl;
+
+            serpent = serpents.erase(remove(serpents.begin(), serpents.end(), resultat.perdant), serpents.end());
+            --serpent;
+         } else { // La tête du serpent est sur le corps d'un autre serpent
+            serpent->mord(*it);
+         }
       }
    }
 }
@@ -87,7 +96,6 @@ const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
    SDL_RenderClear(fenetre.getRenderer());
 
    for (const Pomme& pomme : terrain.pommes) {
-      // TODO: Ajouter la méthode dessinerPoint sur la classe fenêtre
       fenetre << pomme;
    }
 
@@ -97,4 +105,6 @@ const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
 
    // Effectue le rendu sur la fenêtre
    SDL_RenderPresent(fenetre.getRenderer());
+
+   return fenetre;
 }

@@ -17,7 +17,6 @@
 #include "fenetre.h"
 
 class Pomme {
-   // TODO: Est-ce que ça va ici ?
    friend const Fenetre& operator<<(const Fenetre& fenetre, const Pomme& pomme);
 public:
    Pomme(const Coordonnee& coordonnee);

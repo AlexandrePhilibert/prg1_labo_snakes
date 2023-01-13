@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------
-// Fichier        : coordonnee.h
+// Fichier        : serpent.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-10
 // But            : Représentation d'un point sur un plan x et y.
@@ -24,7 +24,14 @@ public:
    int getY() const;
 
    /**
-    * Génère une position aléatoire entre 0 et la position maximum passée en paramètre.
+    * Permet de récupérer les coordonnées absolues
+    *
+    * @return
+    */
+   Coordonnee abs() const;
+
+   /**
+    * Génère une coordonnée aléatoire entre 0 et la position maximum passée en paramètre.
     *
     * @param xMax   La coordonnée x maximum
     * @param yMax   La coordonnée y maximum
@@ -34,7 +41,7 @@ public:
    static Coordonnee random(int xMax, int yMax);
 
    /**
-    * Remplis de l'itérateur de début jusqu'à l'itérateur de fin un vecteur avec des positions uniques.
+    * Remplis de l'itérateur de début jusqu'à l'itérateur de fin un vecteur avec des coordonnées uniques.
     *
     * @param debut  L'itérateur de début du vecteur
     * @param fin    L'itérateur de fin du vecteur
@@ -47,6 +54,7 @@ public:
 
    bool operator==(const Coordonnee& position) const;
    Coordonnee operator+(Direction direction) const;
+   Coordonnee operator-(const Coordonnee& coordonnee) const;
 
 private:
    int x;

@@ -17,7 +17,7 @@
 int Pomme::VALEUR_MIN = 1;
 int Pomme::VALEUR_MAX = 10;
 
-Pomme::Pomme(const Coordonnee& coordonnee):  coordonnee(coordonnee) {
+Pomme::Pomme(const Coordonnee& coordonnee): coordonnee(coordonnee) {
    valeur = random(VALEUR_MIN, VALEUR_MAX);
 };
 

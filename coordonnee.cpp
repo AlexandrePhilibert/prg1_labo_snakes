@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------------------------
-// Fichier        : coordonnee.cpp
+// Fichier        : serpent.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-10
 // But            : Représentation d'un point sur un plan x et y.
@@ -26,16 +26,20 @@ int Coordonnee::getY() const {
 
 void Coordonnee::unique(vector<Coordonnee>::iterator debut, vector<Coordonnee>::iterator fin, int xMax, int yMax) {
    for (vector<Coordonnee>::iterator& it = debut; debut != fin; ++it) {
-      Coordonnee position = Coordonnee::random(xMax, yMax);
+      Coordonnee coordonnee = Coordonnee::random(xMax, yMax);
 
-      if (find(debut, fin, position) == fin) {
-         *it = position;
+      if (find(debut, fin, coordonnee) == fin) {
+         *it = coordonnee;
       }
    }
 }
 
 Coordonnee Coordonnee::random(int xMax, int yMax) {
    return Coordonnee(::random(0, xMax), ::random(0, yMax));
+}
+
+Coordonnee Coordonnee::abs() const {
+   return Coordonnee(::abs(x), ::abs(y));
 }
 
 // -----------------------------------------------------------------------------------------------
@@ -48,29 +52,32 @@ Coordonnee Coordonnee::operator+(Direction direction) const {
 
    switch (direction) {
       case Direction::HAUT:
-         y--;
+         --y;
          break;
       case Direction::DROITE:
-         x++;
+         ++x;
          break;
       case Direction::BAS:
-         y++;
+         ++y;
          break;
       case Direction::GAUCHE:
-         x--;
+         --x;
          break;
    }
 
    return Coordonnee(x, y);
 }
 
-Coordonnee operator+(Direction direction, const Coordonnee& position) {
-   return position + direction;
+Coordonnee operator+(Direction direction, const Coordonnee& coordonnee) {
+   return coordonnee + direction;
 }
 
+Coordonnee Coordonnee::operator-(const Coordonnee& coordonnee) const {
+   return Coordonnee(x - coordonnee.x, y - coordonnee.y);
+}
 
-bool Coordonnee::operator==(const Coordonnee &position) const {
-   return position.x == x && position.y == y;
+bool Coordonnee::operator==(const Coordonnee &coordonnee) const {
+   return x ==  coordonnee.x && y == coordonnee.y;
 }
 
 Direction& operator++(Direction& direction) {
