@@ -73,6 +73,11 @@ void Terrain::prochainTour() {
    for (Serpent& serpent : serpents) {
       Direction direction = deplacer(serpent);
       serpent.deplacer(direction);
+
+      if (serpent.tete() == pommes[0].getCoordonnee()) {
+         serpent.mange(pommes[0]);
+         pommes[0] = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
+      }
    }
 }
 

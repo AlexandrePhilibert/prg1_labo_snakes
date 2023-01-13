@@ -11,7 +11,9 @@
 
 #include "fenetre.h"
 
-Fenetre::Fenetre(const char nom[], int largeur, int hauteur, int echelle) {
+using namespace std;
+
+Fenetre::Fenetre(const char* nom, int largeur, int hauteur, int echelle) {
    SDL_Init(SDL_INIT_VIDEO);
    SDL_CreateWindowAndRenderer(largeur  * echelle,
                                hauteur * echelle,

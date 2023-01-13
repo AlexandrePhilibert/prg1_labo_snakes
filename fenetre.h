@@ -20,8 +20,6 @@
 #include <SDL2/SDL.h>
 #endif
 
-using namespace std;
-
 class Fenetre {
 public:
    /**
