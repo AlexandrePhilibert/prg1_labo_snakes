@@ -2,8 +2,8 @@
 // Fichier        : serpent.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-09
-// But            :
-//
+// But            : Représente un serpent pouvant se déplacer, manger des pommes, mordre d'autres
+//                  serpents ainsi que grandir de taille
 // Modifications  : NIL
 // Remarque(s)    :
 // Compilateur    : g++ 11.2.0
@@ -27,11 +27,13 @@ public:
 
    bool operator==(const Serpent& serpent) const;
    bool operator!=(const Serpent& serpent) const;
+   Serpent& operator=(const Serpent& serpent);
 
    /**
     * Déplace la tête du serpent dans la direction donnée, déplace également
     * le reste de son corps.
     *
+    * @throws NIL
     * @param direction
     */
    void deplacer(Direction direction);
@@ -39,12 +41,14 @@ public:
    /**
     * Ajoute la longueur de la valeur de la pomme au serpent.
     *
+    * @throws NIL
     * @param pomme
     */
    void mange(const Pomme& pomme);
 
    /**
     *
+    * @throws NIL
     * @param serpent
     */
    void mord(Serpent& serpent);
@@ -52,6 +56,7 @@ public:
    /**
     * Permet de récupérer la longueur du serpent (le nombre d'éléments dont est composé son corps)
     *
+    * @throws NIL
     * @return
     */
    size_t longueur() const;
@@ -69,13 +74,17 @@ public:
    /**
     * Permet de récupérer la coordonnée de la tête du serpent
     *
-    * TODO: Référence mutable, donc peut être modifiée depuis l'extérieur
-    *
     * @throws NIL
     * @return La coordonne de la tête du serpent
     */
    Coordonnee& tete();
 
+   /**
+    * Permet de récupérer la coordonnée de la tête du serpent
+    *
+    * @throws NIL
+    * @return La coordonne de la tête du serpent
+    */
    const Coordonnee& tete() const;
 
 private:
@@ -92,7 +101,10 @@ private:
     */
    static const double POURCENTAGE_CROISSANCE_SERPENT_MORDU;
 
-   int id;
+   /**
+    * L'id du serpent, il est unique et s'incrémente de 1 pour chaque nouveau serpent créé
+    */
+   const int id;
 
    /**
     * Le corps du serpent comprends la tête (premier élément du vecteur)
@@ -102,7 +114,7 @@ private:
    /**
     * Permet de récupérer la coordonnée de la queue du serpent
     *
-    * #throws NIL
+    * @throws NIL
     * @return La coordonne de la queue du serpent
     */
    Coordonnee& queue();
@@ -111,6 +123,7 @@ private:
     * Permet de redéfinir la taille du serpent, lorsque sa taille grandit, les coordonnées des nouveaux bouts sont
     * égales aux coordonnée de la queue.
     *
+    * @throws NIL
     * @param longeur
     */
    void redimensionner(size_t longeur);

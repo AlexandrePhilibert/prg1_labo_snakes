@@ -2,9 +2,9 @@
 // Fichier        : terrain.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-09
-// But            :
-// Modifications  : NIL
-// Remarque(s)    :
+      // But            : Représente le terrain sur lequel se trouvent les serpents et les pommes
+      // Modifications  : NIL
+      // Remarque(s)    : Le système de coordonnée débute en haut à gauche en (0,0).
 // Compilateur    : g++ 11.2.0
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
@@ -13,6 +13,7 @@
 #define PRG1_LABO_SNAKES_TERRAIN_H
 
 #include <sstream>
+#include <vector>
 
 #include "serpent.h"
 #include "pomme.h"
@@ -38,7 +39,7 @@ private:
     * Donne la direction dans laquelle le serpent doit se diriger pour atteindre sa pomme.
     *
     * @param serpent Le serpent en question
-    * @return une direction (HAUT, DROITE, BAS, GAUCHE)
+    * @return une direction (NORD, EST, SUD, OUEST)
     */
    Direction directionVersPomme(const Serpent& serpent);
 

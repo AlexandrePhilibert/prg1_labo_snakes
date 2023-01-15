@@ -14,7 +14,7 @@
 
 #include <vector>
 
-enum class Direction { HAUT, DROITE, BAS, GAUCHE };
+enum class Direction { NORD, SUD, OUEST, EST };
 
 class Coordonnee {
 public:

@@ -22,9 +22,8 @@ const double Serpent::POURCENTAGE_CROISSANCE_SERPENT_TUE = 0.6;
 
 const double Serpent::POURCENTAGE_CROISSANCE_SERPENT_MORDU = 0.4;
 
-Serpent::Serpent(const Coordonnee& coordonneeTete, size_t taille) {
-   // Assigne un identifiant unique au serpent
-   id = Serpent::prochainId;
+Serpent::Serpent(const Coordonnee& coordonneeTete, size_t taille): id(Serpent::prochainId) {
+   // Incrémente l'id qui sera attribué au prochain serpent
    prochainId++;
 
    // Place le serpent dans le trou (toutes les parties de son corps se trouvent au même endroit)
@@ -91,6 +90,7 @@ Coordonnee& Serpent::queue() {
 const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent) {
    SDL_SetRenderDrawColor(fenetre.getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
 
+   // Effectue le rendu de chaque bout du corps du serpent
    for(const Coordonnee& coordonnee : serpent.corps) {
       SDL_RenderDrawPoint(fenetre.getRenderer(), coordonnee.getX(), coordonnee.getY());
    }
@@ -102,7 +102,6 @@ bool Serpent::operator==(const Serpent &serpent) const {
    return this->id == serpent.id;
 }
 
-
 bool Serpent::operator!=(const Serpent &serpent) const {
    return !(*this == serpent);
 }
@@ -111,4 +110,13 @@ std::ostream& operator<<(ostream &os, const Serpent& serpent) {
    os << serpent.id;
 
    return os;
+}
+
+Serpent &Serpent::operator=(const Serpent& serpent) {
+   if (this != &serpent) {
+      this->corps = serpent.corps;
+      (int&) this->id = serpent.id;
+   }
+
+   return *this;
 }

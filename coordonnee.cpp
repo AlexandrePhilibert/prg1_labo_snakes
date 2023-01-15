@@ -9,6 +9,8 @@
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
 
+#include <cstdlib> // abs
+
 #include "coordonnee.h"
 #include "annexe.h"
 
@@ -51,16 +53,16 @@ Coordonnee Coordonnee::operator+(Direction direction) const {
    int y = this->y;
 
    switch (direction) {
-      case Direction::HAUT:
+      case Direction::NORD:
          --y;
          break;
-      case Direction::DROITE:
+      case Direction::EST:
          ++x;
          break;
-      case Direction::BAS:
+      case Direction::SUD:
          ++y;
          break;
-      case Direction::GAUCHE:
+      case Direction::OUEST:
          --x;
          break;
    }

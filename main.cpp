@@ -80,6 +80,7 @@ int main (int argc, char *args[]) {
 
       this_thread::sleep_for(TEMPS_ENTRE_TOUR);
 
+      // Gère les événements liés à la fenêtre (fermeture de la fenêtre par ex.)
       fenetre.gererEvenements();
    }
 

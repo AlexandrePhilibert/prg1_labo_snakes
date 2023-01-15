@@ -40,7 +40,7 @@ void Fenetre::gererEvenements() {
       }
    }
 }
-or
+
 bool Fenetre::getVeutQuitter() const {
    return veutQuitter;
 }

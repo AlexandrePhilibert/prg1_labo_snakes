@@ -2,9 +2,9 @@
 // Fichier        : terrain.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-09
-// But            :
+// But            : Représente le terrain sur lequel se trouvent les serpents et les pommes
 // Modifications  : NIL
-// Remarque(s)    :
+// Remarque(s)    : Le système de coordonnée débute en haut à gauche en (0,0).
 // Compilateur    : g++ 11.2.0
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
@@ -24,23 +24,24 @@ Terrain::Terrain(vector<Serpent> &serpents, vector<Pomme>& pommes, int largeur, 
                                                                                                pommes(pommes),
                                                                                                serpents(serpents) {}
 Direction Terrain::directionVersPomme(const Serpent& serpent) {
-   Pomme& pomme = pommes[(size_t) serpent.getId() - 1];
    Direction direction;
-
+   Pomme& pomme = pommes[(size_t) serpent.getId() - 1];
+   // Calcul la distance en x et y entre la tête du serpent et la pomme
    Coordonnee distance = serpent.tete() - pomme.getCoordonnee();
+   // Calcul la distance absolue en x et y entre la tête du serpent et la pomme
    Coordonnee distanceAbsolue = distance.abs();
 
    if (distanceAbsolue.getX() > distanceAbsolue.getY()) {
       if (distance.getX() < 0) {
-         direction = Direction::DROITE;
+         direction = Direction::EST;
       } else {
-         direction =  Direction::GAUCHE;
+         direction =  Direction::OUEST;
       }
    } else {
       if (distance.getY() < 0) {
-         direction = Direction::BAS;
+         direction = Direction::SUD;
       } else {
-         direction =  Direction::HAUT;
+         direction =  Direction::NORD;
       }
    }
 
