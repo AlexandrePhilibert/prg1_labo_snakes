@@ -23,9 +23,8 @@ Terrain::Terrain(vector<Serpent> &serpents, vector<Pomme>& pommes, int largeur, 
                                                                                                hauteur(hauteur),
                                                                                                pommes(pommes),
                                                                                                serpents(serpents) {}
-Direction Terrain::directionVersPomme(const Serpent& serpent) {
-   Direction direction;
-   Pomme& pomme = pommes[(size_t) serpent.getId() - 1];
+
+Direction Terrain::directionVersPomme(const Serpent& serpent, const Pomme& pomme) const {
    // Calcul la distance en x et y entre la tête du serpent et la pomme
    Coordonnee distance = serpent.tete() - pomme.getCoordonnee();
    // Calcul la distance absolue en x et y entre la tête du serpent et la pomme
@@ -33,24 +32,22 @@ Direction Terrain::directionVersPomme(const Serpent& serpent) {
 
    if (distanceAbsolue.getX() > distanceAbsolue.getY()) {
       if (distance.getX() < 0) {
-         direction = Direction::EST;
+         return Direction::EST;
       } else {
-         direction =  Direction::OUEST;
+         return Direction::OUEST;
       }
    } else {
       if (distance.getY() < 0) {
-         direction = Direction::SUD;
+         return Direction::SUD;
       } else {
-         direction =  Direction::NORD;
+         return Direction::NORD;
       }
    }
-
-   return direction;
 }
 
 class TeteSurSerpent {
 public:
-   TeteSurSerpent(Serpent& serpent): serpent(serpent) {}
+   TeteSurSerpent(const Serpent& serpent): serpent(serpent) {}
 
    bool operator()(const Serpent& serpent) {
       if (serpent == this->serpent) {
@@ -61,31 +58,44 @@ public:
       return it != serpent.corps.end();
    }
 private:
-   Serpent& serpent;
+   const Serpent& serpent;
 };
 
 void Terrain::prochainTour() {
-   for (vector<Serpent>::iterator serpent = serpents.begin(); serpent != serpents.end(); ++serpent) {
-      Direction direction = directionVersPomme(*serpent);
-      serpent->deplacer(direction);
+   for (size_t i = 0; i < serpents.size(); ++i) {
+      Serpent& serpent = serpents[i];
+      Pomme& pomme = pommes[i];
 
-      if (serpent->tete() == pommes[(size_t) serpent->getId() - 1].getCoordonnee()) {
-         serpent->mange(pommes[(size_t) serpent->getId() - 1]);
-         pommes[(size_t) serpent->getId() - 1] = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
+      Direction direction = directionVersPomme(serpent, pomme);
+      serpent.deplacer(direction);
+
+      if (serpent.tete() == pomme.getCoordonnee()) {
+         serpent.mange(pomme);
+         pomme = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
       }
 
       // Combats tête sur tête
-      vector<Serpent>::iterator it = find_if(serpents.begin(), serpents.end(), TeteSurSerpent(*serpent));
-      if (it != serpents.end()) {
-         if (it->tete() == serpent->tete()) {
-            ResultatCombat resultat = serpent->combat(*it);
+      vector<Serpent>::iterator autreSerpent = find_if(serpents.begin(), serpents.end(), TeteSurSerpent(serpent));
+      if (autreSerpent != serpents.end()) {
+         if (autreSerpent->tete() == serpent.tete()) {
+            ResultatCombat resultat = serpent.combat(*autreSerpent);
 
+            // Affiche le résultat du combat dans la console
             cout << resultat.gagnant << " killed " << resultat.perdant << endl;
 
-            serpent = serpents.erase(remove(serpents.begin(), serpents.end(), resultat.perdant), serpents.end());
-            --serpent;
+            long indexPerdant = distance(serpents.cbegin(), find(serpents.cbegin(), serpents.cend(), resultat.perdant));
+
+            // Supprime le serpent perdant ainsi que sa pomme
+            serpents.erase(serpents.cbegin() + indexPerdant);
+            pommes.erase(pommes.cbegin() + indexPerdant);
+
+            // Ayant supprimé un serpent du vecteur, il faut décaler l'index d'itération si le serpent supprimer se
+            // trouvait avant l'index actuel dans le vecteur, sinon un serpent va être sauté.
+            if ((size_t) indexPerdant < i) {
+               --i;
+            }
          } else { // La tête du serpent est sur le corps d'un autre serpent
-            serpent->mord(*it);
+            serpent.mord(*autreSerpent);
          }
       }
    }

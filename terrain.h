@@ -2,9 +2,11 @@
 // Fichier        : terrain.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-09
-      // But            : Représente le terrain sur lequel se trouvent les serpents et les pommes
-      // Modifications  : NIL
-      // Remarque(s)    : Le système de coordonnée débute en haut à gauche en (0,0).
+// But            : Représente le terrain sur lequel se trouvent les serpents et les pommes
+// Modifications  : NIL
+// Remarque(s)    : Le système de coordonnée débute en haut à gauche en (0,0).
+//                  Chaque serpent se voit attribué une pomme, l'index de la pomme dans le vecteur corresponds à l'index
+//                  du serpent (par ex. serpents en index 4, pomme en index 4).
 // Compilateur    : g++ 11.2.0
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
@@ -21,17 +23,14 @@
 class Terrain {
    friend const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain);
 public:
-   explicit Terrain(std::vector<Serpent>& serpents, std::vector<Pomme>& pomme , int largeur = 50, int hauteur = 50);
+   explicit Terrain(std::vector<Serpent>& serpents, std::vector<Pomme>& pommes, int largeur = 50, int hauteur = 50);
 
    void prochainTour();
 
 private:
-
    const int largeur;
    const int hauteur;
 
-   // TODO: Est-ce qu'il ne serait pas mieux de faire un std::pair<Serpent, Pomme>,
-   // cela permettrai de lier un serpent à une pomme de manière plus formelle.
    std::vector<Pomme>& pommes;
    std::vector<Serpent>& serpents;
 
@@ -41,7 +40,7 @@ private:
     * @param serpent Le serpent en question
     * @return une direction (NORD, EST, SUD, OUEST)
     */
-   Direction directionVersPomme(const Serpent& serpent);
+   Direction directionVersPomme(const Serpent& serpent, const Pomme& pomme) const;
 
 };
 
