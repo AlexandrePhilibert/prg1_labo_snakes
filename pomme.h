@@ -2,8 +2,8 @@
 // Fichier        : pomme.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-10
-// But            :
-//
+// But            : Réprésente des pommes pouvant être mangé par des serpents, leur
+//                  permettant de changer de taille.
 // Modifications  : NIL
 // Remarque(s)    :
 // Compilateur    : g++ 11.2.0

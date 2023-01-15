@@ -32,4 +32,5 @@ const Coordonnee& Pomme::getCoordonnee() const {
 const Fenetre& operator<<(const Fenetre& fenetre, const Pomme& pomme) {
    SDL_SetRenderDrawColor(fenetre.getRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
    SDL_RenderDrawPoint(fenetre.getRenderer(), pomme.coordonnee.getX(), pomme.coordonnee.getY());
+   return fenetre;
 }

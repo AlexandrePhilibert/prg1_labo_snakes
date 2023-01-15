@@ -2,8 +2,8 @@
 // Fichier        : serpent.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-09
-// But            :
-//
+// But            :Représente un serpent pouvant se déplacer, manger des pommes, mordre d'autres
+//                 serpents ainsi que grandir de taille
 // Modifications  : NIL
 // Remarque(s)    :
 // Compilateur    : g++ 11.2.0
@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "serpent.h"
+#include "annexe.h"
 
 using namespace std;
 
@@ -40,6 +41,12 @@ size_t Serpent::longueur() const {
 
 ResultatCombat Serpent::combat(Serpent& serpent) {
    Serpent& vainqueur = longueur() > serpent.longueur() ? *this : serpent;
+
+   // Dans le cas ou les serpents font la même longueure
+   if(longueur() == serpent.longueur()){
+      vainqueur = random(0, 1) ? *this : serpent; // Sélécitonne aléatoirement un gagnant
+   }
+
    Serpent& perdant = *this == vainqueur ? serpent : *this;
 
    vainqueur.redimensionner(perdant.corps.size() + (size_t) ((double) perdant.longueur() * POURCENTAGE_CROISSANCE_SERPENT_TUE));

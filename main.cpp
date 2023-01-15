@@ -2,7 +2,8 @@
 // Fichier        : main.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
 // Date           : 2022-01-09
-// But            :
+// But            : Affiche un terrain dans lequel des serpents se déplacent,
+//                  mangent des pommes et se battent entre eux.
 // Modifications  : NIL
 // Remarque(s)    :
 // Compilateur    : g++ 11.2.0
@@ -12,7 +13,6 @@
 #include <cstdlib>
 #include <thread>
 #include <iostream>
-#include <random>
 #include <vector>
 #include <limits>
 
@@ -22,11 +22,11 @@
 #include "pomme.h"
 #include "serpent.h"
 
-#include "SDL.h" // Include aussi dans le main autrement problème avec windows
+#include "SDL.h" // Include aussi dans le main afin d'éviter des problème avec windows
 
 using namespace std;
 
-//Argument pour SDL et windows
+//Argument obligatoires pour SDL et windows, ils générent cependant un warning à la compilation.
 int main (int argc, char *args[]) {
    const string MSG_SAISIE_LARGEUR = "largeur"; // Message de saisie de la largeur du terrain
    const string MSG_SAISIE_HAUTEUR = "hauteur"; // Message de saisie de la hauteur du terrain
@@ -43,7 +43,7 @@ int main (int argc, char *args[]) {
    const chrono::duration TEMPS_ENTRE_TOUR = 16ms;
 
    // TODO: Description du programme
-   cout << "ce programme..." << endl << endl;
+   cout << "ce programme représente un terrain dans lequels des serpents se battent." << endl << endl;
 
    // Saisie de la largeur du terrain
    int largeurTerrain = saisie(MSG_SAISIE_LARGEUR, MSG_ERREUR, LARGEUR_TERRAIN_MIN, LARGEUR_TERRAIN_MAX);
@@ -54,6 +54,7 @@ int main (int argc, char *args[]) {
 
    cout << endl;
 
+   // Génération de points d'apparition aléatoires et uniques
    vector<Coordonnee> coordonnees = vector<Coordonnee>((size_t) nombreSerpents * 2);
    Coordonnee::unique(coordonnees.begin(), coordonnees.end(), largeurTerrain - 1, hauteurTerrain - 1);
 
@@ -62,6 +63,7 @@ int main (int argc, char *args[]) {
    vector<Pomme> pommes = vector<Pomme>();
    pommes.reserve((size_t) nombreSerpents);
 
+   // Création des serpents et des pommes au points d'apparitions
    for (vector<Coordonnee>::const_iterator coordonnee = coordonnees.begin(); coordonnee != coordonnees.end(); ) {
       serpents.emplace_back(*coordonnee);
       ++coordonnee;
