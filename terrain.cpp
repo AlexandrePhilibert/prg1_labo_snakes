@@ -83,7 +83,7 @@ void Terrain::prochainTour() {
             // Affiche le résultat du combat dans la console
             cout << resultat.gagnant << " killed " << resultat.perdant << endl;
 
-            long indexPerdant = distance(serpents.cbegin(), find(serpents.cbegin(), serpents.cend(), resultat.perdant));
+            long long indexPerdant = distance(serpents.cbegin(), find(serpents.cbegin(), serpents.cend(), resultat.perdant));
 
             // Supprime le serpent perdant ainsi que sa pomme
             serpents.erase(serpents.cbegin() + indexPerdant);
