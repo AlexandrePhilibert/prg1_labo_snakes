@@ -9,6 +9,8 @@
 // Standard C++   : C++ 20
 // -----------------------------------------------------------------------------------------------
 
+#include <iostream>
+
 #include "fenetre.h"
 
 using namespace std;
@@ -21,7 +23,7 @@ Fenetre::Fenetre(const char* nom, int largeur, int hauteur, int echelle) {
                                &window, &renderer);
 
    if (window == nullptr || renderer == nullptr) {
-      cout << "SDL not ready ... quitting" << endl;
+      cout << "Une erreur est survenue à la création de la fenêtre" << endl;
       exit(EXIT_FAILURE);
    }
 

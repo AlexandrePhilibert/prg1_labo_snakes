@@ -26,24 +26,26 @@
 
 using namespace std;
 
-//Argument obligatoires pour SDL et windows, ils générent cependant un warning à la compilation.
-int main (int argc, char *args[]) {
-   const string MSG_SAISIE_LARGEUR = "largeur"; // Message de saisie de la largeur du terrain
-   const string MSG_SAISIE_HAUTEUR = "hauteur"; // Message de saisie de la hauteur du terrain
-   const string MSG_SAISIE_NOMBRE_SERPENTS = "nbre snakes";  // Message de saisie du nombre de serpents
-   const string MSG_ERREUR = "/!\\ erreur de saisie ..."; // Message d'erreur (hors interval)
-   const int LARGEUR_TERRAIN_MIN = 50; // La largeur de terrain minimum
-   const int LARGEUR_TERRAIN_MAX = 1200; // La largeur de terrain maximum
-   const int HAUTEUR_TERRAIN_MIN = 50; // La hauteur de terrain minimum
-   const int HAUTEUR_TERRAIN_MAX = 800; // La hauteur de terrain maximum
-   const int NOMBRE_SERPENTS_MIN = 2; // Le nombre de serpents minimum
-   const int NOMBRE_SERPENTS_MAX = 1000; // Le nombre de serpents maximum
-   const char* nomFenetre = "PRG1 Labo Snakes Groupe G"; // Le nom de la fenêtre
-   const int ECHELLE_FENETRE = 4; // L'échelle de la fenêtre (1 pixel * échelle)
-   const chrono::duration TEMPS_ENTRE_TOUR = 16ms;
+int main (int argc, char *argv[]) {
+   // Permet d'éviter les warnings de compilation pour variables inutilisées
+   (void) argc;
+   (void) argv;
 
-   // TODO: Description du programme
-   cout << "ce programme représente un terrain dans lequels des serpents se battent." << endl << endl;
+   const string MSG_SAISIE_LARGEUR = "largeur";             // Message de saisie de la largeur du terrain
+   const string MSG_SAISIE_HAUTEUR = "hauteur";             // Message de saisie de la hauteur du terrain
+   const string MSG_SAISIE_NOMBRE_SERPENTS = "nbre snakes"; // Message de saisie du nombre de serpents
+   const string MSG_ERREUR = "/!\\ erreur de saisie ...";   // Message d'erreur (hors interval)
+   const int LARGEUR_TERRAIN_MIN = 50;                      // La largeur de terrain minimum
+   const int LARGEUR_TERRAIN_MAX = 1200;                    // La largeur de terrain maximum
+   const int HAUTEUR_TERRAIN_MIN = 50;                      // La hauteur de terrain minimum
+   const int HAUTEUR_TERRAIN_MAX = 800;                     // La hauteur de terrain maximum
+   const int NOMBRE_SERPENTS_MIN = 2;                       // Le nombre de serpents minimum
+   const int NOMBRE_SERPENTS_MAX = 1000;                    // Le nombre de serpents maximum
+   const char* NOM_FENETRE = "PRG1 Labo Snakes Groupe G";   // Le nom de la fenêtre
+   const int ECHELLE_FENETRE = 4;                           // L'échelle de la fenêtre (1 pixel * échelle)
+   const chrono::duration TEMPS_ENTRE_TOUR = 16ms;          // Le temps entre chaque tour sur le terrain
+
+   cout << "ce programme vous permet de créer un terrain sur lequel des serpents vont se déplacer et combattre" << endl << endl;
 
    // Saisie de la largeur du terrain
    int largeurTerrain = saisie(MSG_SAISIE_LARGEUR, MSG_ERREUR, LARGEUR_TERRAIN_MIN, LARGEUR_TERRAIN_MAX);
@@ -54,27 +56,11 @@ int main (int argc, char *args[]) {
 
    cout << endl;
 
-   // Génération de points d'apparition aléatoires et uniques
-   vector<Coordonnee> coordonnees = vector<Coordonnee>((size_t) nombreSerpents * 2);
-   Coordonnee::unique(coordonnees.begin(), coordonnees.end(), largeurTerrain - 1, hauteurTerrain - 1);
+   // Création de la fenêtre graphique et du terrain
+   Fenetre fenetre = Fenetre(NOM_FENETRE, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
+   Terrain terrain = Terrain(nombreSerpents, largeurTerrain, hauteurTerrain);
 
-   vector<Serpent> serpents = vector<Serpent>();
-   serpents.reserve((size_t) nombreSerpents);
-   vector<Pomme> pommes = vector<Pomme>();
-   pommes.reserve((size_t) nombreSerpents);
-
-   // Création des serpents et des pommes au points d'apparitions
-   for (vector<Coordonnee>::const_iterator coordonnee = coordonnees.begin(); coordonnee != coordonnees.end(); ) {
-      serpents.emplace_back(*coordonnee);
-      ++coordonnee;
-      pommes.emplace_back(*coordonnee);
-      ++coordonnee;
-   }
-
-   Terrain terrain = Terrain(serpents, pommes, largeurTerrain, hauteurTerrain);
-   Fenetre fenetre = Fenetre(nomFenetre, largeurTerrain, hauteurTerrain, ECHELLE_FENETRE);
-
-   while(!fenetre.getVeutQuitter() && serpents.size() > 1) {
+   while(!fenetre.getVeutQuitter() && terrain.getNombreSerpents() > 1) {
       fenetre << terrain;
 
       // Effectue les déplacements et les combats de serpents

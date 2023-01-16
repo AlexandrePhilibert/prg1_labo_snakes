@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : pomme.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-10
-// But            : Réprésente des pommes pouvant être mangé par des serpents, leur
+// Date           : 2022-01-16
+// But            : Représente des pommes pouvant être mangées par des serpents, leur
 //                  permettant de changer de taille.
 // Modifications  : NIL
 // Remarque(s)    :
@@ -19,7 +19,7 @@
 class Pomme {
    friend const Fenetre& operator<<(const Fenetre& fenetre, const Pomme& pomme);
 public:
-   Pomme(const Coordonnee& coordonnee);
+   explicit Pomme(const Coordonnee& coordonnee);
 
    int getValeur() const;
 

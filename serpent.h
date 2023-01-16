@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : serpent.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-09
+// Date           : 2022-01-16
 // But            : Représente un serpent pouvant se déplacer, manger des pommes, mordre d'autres
 //                  serpents ainsi que grandir de taille
 // Modifications  : NIL
@@ -23,7 +23,16 @@ class Serpent {
    friend std::ostream& operator<<(std::ostream&os, const Serpent& serpent);
    friend class TeteSurSerpent;
 public:
+   /**
+    * Créé un serpent de la taille donnée où chaque partie de son corps sont aux coordonnées de sa tête
+    *
+    * @param coordonneeTete Les coordonnées initiales de la tête du serpent
+    * @param taille La taille initiale du serpent
+    * @throws NIL
+    */
    explicit Serpent(const Coordonnee& coordonneeTete, size_t taille = 10);
+
+   ~Serpent();
 
    bool operator==(const Serpent& serpent) const;
    bool operator!=(const Serpent& serpent) const;
@@ -69,8 +78,6 @@ public:
     */
    ResultatCombat combat(Serpent& serpent);
 
-   int getId() const;
-
    /**
     * Permet de récupérer la coordonnée de la tête du serpent
     *
@@ -89,6 +96,9 @@ public:
 
 private:
 
+   /**
+    * Le prochain id assigné lorsqu'un nouveau serpent est créé
+    */
    static int prochainId;
 
    /**
@@ -130,6 +140,9 @@ private:
 };
 
 
+/**
+ * Représente le résultat d'un combat de serpent, avec un gagnant et un perdant
+ */
 class ResultatCombat {
 public:
    ResultatCombat(const Serpent& gagnant, const Serpent& perdant): gagnant(gagnant), perdant(perdant) {};
@@ -141,4 +154,5 @@ public:
 std::ostream& operator<<(std::ostream&os, const Serpent& serpent);
 
 const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent);
+
 #endif //PRG1_LABO_SNAKES_SERPENT_H

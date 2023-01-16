@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <vector>
+#include <iostream>
 
 #include "fenetre.h"
 #include "terrain.h"
@@ -19,10 +20,89 @@
 
 using namespace std;
 
-Terrain::Terrain(vector<Serpent> &serpents, vector<Pomme>& pommes, int largeur, int hauteur) : largeur(largeur),
-                                                                                               hauteur(hauteur),
-                                                                                               pommes(pommes),
-                                                                                               serpents(serpents) {}
+Terrain::Terrain(int nombreSerpents, int largeur, int hauteur) : largeur(largeur), hauteur(hauteur) {
+   // Génération de points d'apparition aléatoires et uniques pour les serpents et les pommes
+   vector<Coordonnee> coordonnees = vector<Coordonnee>((size_t) nombreSerpents * 2);
+   Coordonnee::unique(coordonnees.begin(), coordonnees.end(), largeur - 1, hauteur - 1);
+
+   serpents = vector<Serpent>();
+   serpents.reserve((size_t) nombreSerpents);
+   pommes = vector<Pomme>();
+   pommes.reserve((size_t) nombreSerpents);
+
+   // Création des serpents et des pommes aux points d'apparitions
+   for (vector<Coordonnee>::const_iterator coordonnee = coordonnees.begin(); coordonnee != coordonnees.end(); ) {
+      serpents.push_back(Serpent(*coordonnee));
+      ++coordonnee;
+      pommes.push_back(Pomme(*coordonnee));
+      ++coordonnee;
+   }
+}
+
+int Terrain::getNombreSerpents() const {
+   return (int) serpents.size();
+}
+
+class TeteSurSerpent {
+public:
+   explicit TeteSurSerpent(const Serpent& serpent): serpent(serpent) {}
+
+   bool operator()(const Serpent& serpent) {
+      if (serpent == this->serpent) {
+         return false;
+      }
+
+      vector<Coordonnee>::const_iterator it = find(serpent.corps.begin(), serpent.corps.end(), this->serpent.tete());
+      return it != serpent.corps.end();
+   }
+private:
+   const Serpent& serpent;
+};
+
+void Terrain::prochainTour() {
+   for (size_t i = 0; i < serpents.size(); ++i) {
+      Serpent& serpent = serpents[i];
+      Pomme& pomme = pommes[i];
+
+      // Déplace le serpent en direction de la pomme
+      Direction direction = directionVersPomme(serpent, pomme);
+      serpent.deplacer(direction);
+
+      // Le serpent mange la pomme si sa tête se trouve dessus
+      if (serpent.tete() == pomme.getCoordonnee()) {
+         serpent.mange(pomme);
+         pomme = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
+      }
+
+      vector<Serpent>::iterator autreSerpent = find_if(serpents.begin(), serpents.end(), TeteSurSerpent(serpent));
+      // La tête du serpent ne se trouve sur aucun autre serpent, aucun combat ou morsure n'est réalisé.
+      if (autreSerpent == serpents.end()) {
+         continue;
+      }
+
+      // Combat tête sur tête
+      if (autreSerpent->tete() == serpent.tete()) {
+         ResultatCombat resultat = serpent.combat(*autreSerpent);
+
+         // Affiche le résultat du combat dans la console
+         cout << resultat.gagnant << " killed " << resultat.perdant << endl;
+
+         long long indexPerdant = distance(serpents.cbegin(), find(serpents.cbegin(), serpents.cend(), resultat.perdant));
+
+         // Supprime le serpent perdant ainsi que sa pomme
+         serpents.erase(serpents.cbegin() + indexPerdant);
+         pommes.erase(pommes.cbegin() + indexPerdant);
+
+         // Ayant supprimé un serpent du vecteur, il faut décaler l'index d'itération si le serpent supprimer se
+         // trouvait avant l'index actuel dans le vecteur, sinon un serpent va être sauté.
+         if ((size_t) indexPerdant < i) {
+            --i;
+         }
+      } else { // La tête du serpent est sur le corps d'un autre serpent
+         serpent.mord(*autreSerpent);
+      }
+   }
+}
 
 Direction Terrain::directionVersPomme(const Serpent& serpent, const Pomme& pomme) const {
    // Calcul la distance en x et y entre la tête du serpent et la pomme
@@ -45,71 +125,21 @@ Direction Terrain::directionVersPomme(const Serpent& serpent, const Pomme& pomme
    }
 }
 
-class TeteSurSerpent {
-public:
-   TeteSurSerpent(const Serpent& serpent): serpent(serpent) {}
-
-   bool operator()(const Serpent& serpent) {
-      if (serpent == this->serpent) {
-         return false;
-      }
-
-      vector<Coordonnee>::const_iterator it = find(serpent.corps.begin(), serpent.corps.end(), this->serpent.tete());
-      return it != serpent.corps.end();
-   }
-private:
-   const Serpent& serpent;
-};
-
-void Terrain::prochainTour() {
-   for (size_t i = 0; i < serpents.size(); ++i) {
-      Serpent& serpent = serpents[i];
-      Pomme& pomme = pommes[i];
-
-      Direction direction = directionVersPomme(serpent, pomme);
-      serpent.deplacer(direction);
-
-      if (serpent.tete() == pomme.getCoordonnee()) {
-         serpent.mange(pomme);
-         pomme = Pomme(Coordonnee::random(largeur - 1, hauteur - 1));
-      }
-
-      // Combats tête sur tête
-      vector<Serpent>::iterator autreSerpent = find_if(serpents.begin(), serpents.end(), TeteSurSerpent(serpent));
-      if (autreSerpent != serpents.end()) {
-         if (autreSerpent->tete() == serpent.tete()) {
-            ResultatCombat resultat = serpent.combat(*autreSerpent);
-
-            // Affiche le résultat du combat dans la console
-            cout << resultat.gagnant << " killed " << resultat.perdant << endl;
-
-            long long indexPerdant = distance(serpents.cbegin(), find(serpents.cbegin(), serpents.cend(), resultat.perdant));
-
-            // Supprime le serpent perdant ainsi que sa pomme
-            serpents.erase(serpents.cbegin() + indexPerdant);
-            pommes.erase(pommes.cbegin() + indexPerdant);
-
-            // Ayant supprimé un serpent du vecteur, il faut décaler l'index d'itération si le serpent supprimer se
-            // trouvait avant l'index actuel dans le vecteur, sinon un serpent va être sauté.
-            if ((size_t) indexPerdant < i) {
-               --i;
-            }
-         } else { // La tête du serpent est sur le corps d'un autre serpent
-            serpent.mord(*autreSerpent);
-         }
-      }
-   }
-}
+// -----------------------------------------------------------------------------------------------
+// region Opérateurs
+// -----------------------------------------------------------------------------------------------
 
 const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
    // Affiche l'arrière-plan du terrain en blanc
    SDL_SetRenderDrawColor(fenetre.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
    SDL_RenderClear(fenetre.getRenderer());
 
+   // Affiche les pommes sur la fenêtre
    for (const Pomme& pomme : terrain.pommes) {
       fenetre << pomme;
    }
 
+   // Affiche les serpents sur la fenêtre
    for (const Serpent& serpent : terrain.serpents) {
       fenetre << serpent;
    }
@@ -119,3 +149,7 @@ const Fenetre& operator<<(const Fenetre& fenetre, const Terrain& terrain) {
 
    return fenetre;
 }
+
+// -----------------------------------------------------------------------------------------------
+// endregion Opérateurs
+// -----------------------------------------------------------------------------------------------

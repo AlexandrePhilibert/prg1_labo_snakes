@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : fenetre.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-10
+// Date           : 2022-01-16
 // But            : Représentation d'une fenêtre SDL
 // Modifications  : NIL
 // Remarque(s)    :
@@ -12,13 +12,7 @@
 #ifndef PRG1_LABO_SNAKES_FENETRE_H
 #define PRG1_LABO_SNAKES_FENETRE_H
 
-#include <iostream>
-
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <SDL.h>
-#else
-#include <SDL2/SDL.h>
-#endif
 
 class Fenetre {
 public:
@@ -31,8 +25,19 @@ public:
     */
    Fenetre(const char nom[], int largeur = 50, int hauteur = 50, int echelle = 10);
 
+   /**
+    * Permet de savoir si la fenêtre souhaite quitter ou non
+    *
+    * @throws NIL
+    * @return true si la fenêtre souhaite se fermer, false sinon
+    */
    bool getVeutQuitter() const;
 
+   /**
+    *
+    * @throws NIL
+    * @return
+    */
    SDL_Renderer* getRenderer() const;
 
    /**

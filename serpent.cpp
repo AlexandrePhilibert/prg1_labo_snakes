@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------------------------
 
 #include <vector>
+#include <iostream>
 
 #include "serpent.h"
 #include "annexe.h"
@@ -19,7 +20,7 @@ using namespace std;
 
 int Serpent::prochainId = 1;
 
-const double Serpent::POURCENTAGE_CROISSANCE_SERPENT_TUE = 0.6;
+constexpr double Serpent::POURCENTAGE_CROISSANCE_SERPENT_TUE = 0.6;
 
 const double Serpent::POURCENTAGE_CROISSANCE_SERPENT_MORDU = 0.4;
 
@@ -31,26 +32,30 @@ Serpent::Serpent(const Coordonnee& coordonneeTete, size_t taille): id(Serpent::p
    corps = vector<Coordonnee>(taille, coordonneeTete);
 }
 
-int Serpent::getId() const {
-   return id;
-}
+// Nécessaire pour éviter les warnings à l'utilisation de swap
+Serpent::~Serpent() = default;
 
 size_t Serpent::longueur() const {
    return corps.size();
 }
 
 ResultatCombat Serpent::combat(Serpent& serpent) {
-   Serpent& vainqueur = longueur() > serpent.longueur() ? *this : serpent;
+   // Le gagnant est le serpent de plus grande longueur
+   Serpent& gagnant = longueur() > serpent.longueur() ? *this : serpent;
+   Serpent& perdant = *this == gagnant ? serpent : *this;
 
-   // Dans le cas ou les serpents font la même longueure
-   if(longueur() == serpent.longueur()){
-      vainqueur = random(0, 1) ? *this : serpent; // Sélécitonne aléatoirement un gagnant
+   // Dans le cas où les serpents sont de la même longueur, il est nécessaire de choisir le gagnant de façon aléatoire
+   // pour que les serpents aient les mêmes chances de gagner.
+   if(longueur() == serpent.longueur() && random(0, 1)) {
+      swap(gagnant, perdant);
    }
 
-   Serpent& perdant = *this == vainqueur ? serpent : *this;
+   // Ajoute 60% de la longueur du serpent tué
+   gagnant.redimensionner(
+      longueur() + (size_t) (POURCENTAGE_CROISSANCE_SERPENT_TUE * (double) perdant.longueur())
+   );
 
-   vainqueur.redimensionner(perdant.corps.size() + (size_t) ((double) perdant.longueur() * POURCENTAGE_CROISSANCE_SERPENT_TUE));
-   return { vainqueur, perdant };
+   return { gagnant, perdant };
 }
 
 void Serpent::mange(const Pomme& pomme) {
@@ -62,8 +67,10 @@ void Serpent::mange(const Pomme& pomme) {
 void Serpent::mord(Serpent& serpent) {
    vector<Coordonnee>::iterator it = find(serpent.corps.begin(), serpent.corps.end(), tete());
 
-   // Ajoute les 40% de la longueur coupée
-   redimensionner(corps.size() + (size_t) ((double) distance(it, serpent.corps.end()) * POURCENTAGE_CROISSANCE_SERPENT_MORDU));
+   // Ajoute 40% de la longueur coupée
+   redimensionner(
+      longueur() + (size_t) (POURCENTAGE_CROISSANCE_SERPENT_MORDU * (double) distance(it, serpent.corps.end()))
+   );
 
    serpent.corps.erase(it, serpent.corps.end());
 }
@@ -93,6 +100,10 @@ const Coordonnee& Serpent::tete() const {
 Coordonnee& Serpent::queue() {
    return corps[corps.size() - 1];
 }
+
+// -----------------------------------------------------------------------------------------------
+// region Opérateurs
+// -----------------------------------------------------------------------------------------------
 
 const Fenetre& operator<<(const Fenetre& fenetre, const Serpent& serpent) {
    SDL_SetRenderDrawColor(fenetre.getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -127,3 +138,7 @@ Serpent &Serpent::operator=(const Serpent& serpent) {
 
    return *this;
 }
+
+// -----------------------------------------------------------------------------------------------
+// endregion Opérateurs
+// -----------------------------------------------------------------------------------------------
