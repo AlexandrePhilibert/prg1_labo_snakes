@@ -48,6 +48,7 @@ public:
    explicit TeteSurSerpent(const Serpent& serpent): serpent(serpent) {}
 
    bool operator()(const Serpent& serpent) {
+      // La tête du serpent se trouvera forcément sur lui-même
       if (serpent == this->serpent) {
          return false;
       }

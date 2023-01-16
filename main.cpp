@@ -13,16 +13,11 @@
 #include <cstdlib>
 #include <thread>
 #include <iostream>
-#include <vector>
 #include <limits>
 
 #include "fenetre.h"
 #include "saisie.h"
 #include "terrain.h"
-#include "pomme.h"
-#include "serpent.h"
-
-#include "SDL.h" // Include aussi dans le main afin d'éviter des problème avec windows
 
 using namespace std;
 

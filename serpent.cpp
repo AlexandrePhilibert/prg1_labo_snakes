@@ -65,6 +65,7 @@ void Serpent::mange(const Pomme& pomme) {
 }
 
 void Serpent::mord(Serpent& serpent) {
+   // Trouve la partie du corps se trouvant à la même position que la tête
    vector<Coordonnee>::iterator it = find(serpent.corps.begin(), serpent.corps.end(), tete());
 
    // Ajoute 40% de la longueur coupée
@@ -72,6 +73,7 @@ void Serpent::mord(Serpent& serpent) {
       longueur() + (size_t) (POURCENTAGE_CROISSANCE_SERPENT_MORDU * (double) distance(it, serpent.corps.end()))
    );
 
+   // Supprime la partie du corps mordue
    serpent.corps.erase(it, serpent.corps.end());
 }
 
