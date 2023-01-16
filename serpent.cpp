@@ -124,10 +124,8 @@ bool Serpent::operator!=(const Serpent &serpent) const {
    return !(*this == serpent);
 }
 
-std::ostream& operator<<(ostream &os, const Serpent& serpent) {
-   os << serpent.id;
-
-   return os;
+ostream& operator<<(ostream &os, const Serpent& serpent) {
+   return os << serpent.id;
 }
 
 Serpent &Serpent::operator=(const Serpent& serpent) {
