@@ -99,7 +99,7 @@ const Coordonnee& Serpent::tete() const {
    return corps[0];
 }
 
-Coordonnee& Serpent::queue() {
+const Coordonnee& Serpent::queue() const {
    return corps[corps.size() - 1];
 }
 

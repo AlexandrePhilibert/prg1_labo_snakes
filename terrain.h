@@ -66,6 +66,17 @@ private:
    std::vector<Serpent> serpents;
 
    /**
+    * Effectue le type de combat de serpentAttaquant requis (tête sur tête, ou tête sur corps).
+    *
+    * @param serpentAttaquant Le serpent qui attaque l'autre
+    * @param serpentVictime Le serpent victime de l'attaque
+    * @param indexSerpentAttaquant L'index du serpentAttaquant qui attaque l'autre serpentAttaquant
+    * @throws NIL
+    * @return void
+    */
+   void combat(Serpent& serpentAttaquant, Serpent& serpentVictime, size_t& indexSerpentAttaquant);
+
+   /**
     * Donne la direction dans laquelle le serpent doit se diriger pour atteindre sa pomme.
     *
     * @param serpent Le serpent en question

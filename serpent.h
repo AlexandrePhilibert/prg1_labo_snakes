@@ -127,7 +127,7 @@ private:
     * @throws NIL
     * @return La coordonne de la queue du serpent
     */
-   Coordonnee& queue();
+   const Coordonnee& queue() const;
 
    /**
     * Permet de redéfinir la taille du serpent, lorsque sa taille grandit, les coordonnées des nouveaux bouts sont
