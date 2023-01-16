@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : serpent.h
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-10
+// Date           : 2022-01-16
 // But            : Représentation d'un point sur un plan x et y.
 // Modifications  : NIL
 // Remarque(s)    :
@@ -55,6 +55,7 @@ public:
    bool operator==(const Coordonnee& position) const;
    Coordonnee operator+(Direction direction) const;
    Coordonnee operator-(const Coordonnee& coordonnee) const;
+   Coordonnee& operator+=(Direction& direction);
 
 private:
    int x;

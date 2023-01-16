@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : serpent.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-10
+// Date           : 2022-01-16
 // But            : Représentation d'un point sur un plan x et y.
 // Modifications  : NIL
 // Remarque(s)    :
@@ -85,6 +85,10 @@ bool Coordonnee::operator==(const Coordonnee &coordonnee) const {
 Direction& operator++(Direction& direction) {
    direction = (Direction) ((int) direction + 1);
    return direction;
+}
+
+Coordonnee& Coordonnee::operator+=(Direction& direction) {
+   return *this = *this + direction;
 }
 
 // -----------------------------------------------------------------------------------------------

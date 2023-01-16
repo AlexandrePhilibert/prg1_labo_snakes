@@ -1,9 +1,9 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : serpent.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-09
-// But            :Représente un serpent pouvant se déplacer, manger des pommes, mordre d'autres
-//                 serpents ainsi que grandir de taille
+// Date           : 2022-01-16
+// But            : Représente un serpent pouvant se déplacer, manger des pommes, mordre d'autres
+//                  serpents ainsi que grandir de taille
 // Modifications  : NIL
 // Remarque(s)    :
 // Compilateur    : g++ 11.2.0
@@ -86,7 +86,7 @@ void Serpent::deplacer(Direction direction) {
    }
 
    // Déplace la tête du serpent
-   tete() = tete() + direction;
+   tete() += direction;
 }
 
 Coordonnee& Serpent::tete() {

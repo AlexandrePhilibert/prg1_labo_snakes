@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------------------------
 // Fichier        : fenetre.cpp
 // Auteur(s)      : DURGERDIL Noam & PHILIBERT Alexandre
-// Date           : 2022-01-10
+// Date           : 2022-01-16
 // But            : Représentation d'une fenêtre SDL
 // Modifications  : NIL
 // Remarque(s)    :
